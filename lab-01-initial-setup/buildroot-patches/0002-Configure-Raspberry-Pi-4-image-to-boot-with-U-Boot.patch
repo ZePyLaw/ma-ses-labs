@@ -1,0 +1,52 @@
+From 68206a8617d4f0d2f1e9efb61e049b7bc9759fc3 Mon Sep 17 00:00:00 2001
+From: Alexandre Schmid <alexandre.schmid@master.hes-so.ch>
+Date: Sun, 27 Sep 2026 15:50:10 +0200
+Subject: [PATCH 2/2] Configure Raspberry Pi 4 image to boot with U-Boot
+
+---
+ board/raspberrypi/config_4_64bit.txt | 2 +-
+ board/raspberrypi/genimage.cfg.in    | 1 +
+ configs/alexandre_rpi4_64_defconfig  | 2 ++
+ 3 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/board/raspberrypi/config_4_64bit.txt b/board/raspberrypi/config_4_64bit.txt
+index 2eef6dd1a2..f90482a4b1 100644
+--- a/board/raspberrypi/config_4_64bit.txt
++++ b/board/raspberrypi/config_4_64bit.txt
+@@ -7,7 +7,7 @@
+ start_file=start4.elf
+ fixup_file=fixup4.dat
+ 
+-kernel=Image
++kernel=u-boot.bin
+ 
+ # To use an external initramfs file
+ #initramfs rootfs.cpio.gz
+diff --git a/board/raspberrypi/genimage.cfg.in b/board/raspberrypi/genimage.cfg.in
+index fd38b86a0c..ba8e567b09 100644
+--- a/board/raspberrypi/genimage.cfg.in
++++ b/board/raspberrypi/genimage.cfg.in
+@@ -2,6 +2,7 @@ image boot.vfat {
+ 	vfat {
+ 		files = {
+ #BOOT_FILES#
++			"Image",
+ 		}
+ 	}
+ 
+diff --git a/configs/alexandre_rpi4_64_defconfig b/configs/alexandre_rpi4_64_defconfig
+index ed9224f7ad..edd2319133 100644
+--- a/configs/alexandre_rpi4_64_defconfig
++++ b/configs/alexandre_rpi4_64_defconfig
+@@ -29,6 +29,8 @@ BR2_TARGET_ROOTFS_EXT2=y
+ BR2_TARGET_ROOTFS_EXT2_4=y
+ BR2_TARGET_ROOTFS_EXT2_SIZE="120M"
+ # BR2_TARGET_ROOTFS_TAR is not set
++BR2_TARGET_UBOOT=y
++BR2_TARGET_UBOOT_BOARD_DEFCONFIG="rpi_4"
+ BR2_PACKAGE_HOST_DOSFSTOOLS=y
+ BR2_PACKAGE_HOST_GENIMAGE=y
+ BR2_PACKAGE_HOST_KMOD_XZ=y
+-- 
+2.55.0
+
